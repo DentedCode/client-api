@@ -63,7 +63,7 @@ router.post("/login", async (req, res) => {
     return res.json({ status: "error", message: "Invalid email or password!" });
   }
 
-  const accessJWT = await crateAccessJWT(user.email);
+  const accessJWT = await crateAccessJWT(user.email, `${user._id}`);
   const refreshJWT = await crateRefreshJWT(user.email);
 
   res.json({
