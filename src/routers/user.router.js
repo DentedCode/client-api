@@ -64,7 +64,7 @@ router.post("/login", async (req, res) => {
   }
 
   const accessJWT = await crateAccessJWT(user.email, `${user._id}`);
-  const refreshJWT = await crateRefreshJWT(user.email);
+  const refreshJWT = await crateRefreshJWT(user.email, `${user._id}`);
 
   res.json({
     status: "success",
