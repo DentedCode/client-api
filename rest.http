@@ -12,10 +12,14 @@ Content-Type: application/json
 }
 ### User sing in endpoint
 POST http://localhost:3001/v1/user/login
-Content-Type: application/json
-
+Content-Type: application/json 
 
 {
     "email": "e2@e.com",
      "password": "secret123"   
 }
+
+### Get a user profile endpoint
+GET  http://localhost:3001/v1/user
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA0OTY3NTYzLCJleHAiOjE2MDQ5Njg0NjN9.GN2htX3_j-A90IMW6B4UeoAC1vX7rQaWmF93NcSldmE
+

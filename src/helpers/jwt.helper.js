@@ -30,7 +30,16 @@ const crateRefreshJWT = async (email, _id) => {
   }
 };
 
+const verifyAccessJWT = (userJWT) => {
+  try {
+    return Promise.resolve(jwt.verify(userJWT, process.env.JWT_ACCESS_SECRET));
+  } catch (error) {
+    return Promise.resolve(error);
+  }
+};
+
 module.exports = {
   crateAccessJWT,
   crateRefreshJWT,
+  verifyAccessJWT,
 };

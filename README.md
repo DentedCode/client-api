@@ -22,7 +22,7 @@ All the user API router follows `/v1/user/`
 | 1   | `/v1/user/login`                  | POST  | TODO     | No         | Verify user Authentication and return JWT        |
 | 2   | `/v1/user/request-reset-password` | POST  | TODO     | No         | Verify email and email pin to reset the password |
 | 3   | `/v1/user/reset-password`         | PUT   | TODO     | No         | Replace with new password                        |
-| 4   | `/v1/user/{id}`                   | GET   | TODO     | Yes        | Get users Info                                   |
+| 4   | `/v1/user`                        | GET   | TODO     | Yes        | Get users Info                                   |
 
 ### Ticket API Resources
 
