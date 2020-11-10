@@ -25,8 +25,6 @@ router.get("/", userAuthorization, async (req, res) => {
   const _id = req.userId;
 
   const userProf = await getUserById(_id);
-  //3. extract user id
-  //4. get user profile based on the user id
 
   res.json({ user: userProf });
 });
