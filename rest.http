@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
     "email": "e2@e.com",
-     "password": "secret123"   
+     "password": "password12"   
 }
 
 ### Get a user profile endpoint
@@ -34,11 +34,20 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwi
 # eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA0OTc0MTcyLCJleHAiOjE2MDQ5NzUwNzJ9.wvNH_c-yaWd05N6sPx3Y47AtJIIP9dXNCOIyVEjUO88
 
 
-#### Password reset endpoints
+#### Password reset request endpoints
 POST http://localhost:3001/v1/user/reset-password
 Content-Type: application/json 
 
 {
     "email": "e2@e.com"
+}
+#### Update new password endpoint
+PATCH  http://localhost:3001/v1/user/reset-password
+Content-Type: application/json 
+
+{
+    "email": "e2@e.com",
+    "pin": 486968,
+    "newPassword": "password12"
 }
 

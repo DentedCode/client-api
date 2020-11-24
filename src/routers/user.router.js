@@ -6,13 +6,18 @@ const {
   insertUser,
   getUserByEmail,
   getUserById,
+  updatePassword,
 } = require("../model/user/User.model");
 const { hashPassword, comparePassword } = require("../helpers/bcrypt.helper");
 const { crateAccessJWT, crateRefreshJWT } = require("../helpers/jwt.helper");
 const {
   userAuthorization,
 } = require("../middlewares/authorization.middleware");
-const { setPasswordRestPin } = require("../model/restPin/RestPin.model");
+const {
+  setPasswordRestPin,
+  getPinByEmailPin,
+  deletePin,
+} = require("../model/restPin/RestPin.model");
 const { emailProcessor } = require("../helpers/email.helper");
 
 router.all("/", (req, res, next) => {
@@ -91,20 +96,6 @@ router.post("/login", async (req, res) => {
   });
 });
 
-// A. Create and send password reset pin number
-
-// 4. email the pin
-
-// B. update Password in DB
-// 1. receive email, pin and new Password
-// 2. validate pin
-// 3. encrypt new password
-// 4. update password in db
-// 5. send email notification
-
-// C. Server side form validation
-// 1. create middleware to validate form data
-
 router.post("/reset-password", async (req, res) => {
   const { email } = req.body;
 
@@ -113,20 +104,16 @@ router.post("/reset-password", async (req, res) => {
   if (user && user._id) {
     /// crate// 2. create unique 6 digit pin
     const setPin = await setPasswordRestPin(email);
-    const result = await emailProcessor(email, setPin.pin);
-
-    if (result && result.messageId) {
-      return res.json({
-        status: "success",
-        message:
-          "If the email is exist in our database, the password reset pin will be sent shortly.",
-      });
-    }
+    await emailProcessor({
+      email,
+      pin: setPin.pin,
+      type: "request-new-password",
+    });
 
     return res.json({
       status: "success",
       message:
-        "Unable to process your request at the moment . Plz trya gain later!",
+        "If the email is exist in our database, the password reset pin will be sent shortly.",
     });
   }
 
@@ -136,4 +123,51 @@ router.post("/reset-password", async (req, res) => {
       "If the email is exist in our database, the password reset pin will be sent shortly.",
   });
 });
+
+// B. update Password in DB
+
+// C. Server side form validation
+// 1. create middleware to validate form data
+
+router.patch("/reset-password", async (req, res) => {
+  const { email, pin, newPassword } = req.body;
+
+  const getPin = await getPinByEmailPin(email, pin);
+  // 2. validate pin
+  if (getPin._id) {
+    const dbDate = getPin.addedAt;
+    const expiresIn = 1;
+
+    let expDate = dbDate.setDate(dbDate.getDate() + expiresIn);
+
+    const today = new Date();
+
+    if (today > expDate) {
+      return res.json({ status: "error", message: "Invalid or expired pin." });
+    }
+
+    // encrypt new password
+    const hashedPass = await hashPassword(newPassword);
+
+    const user = await updatePassword(email, hashedPass);
+
+    if (user._id) {
+      // send email notification
+      await emailProcessor({ email, type: "update-password-success" });
+
+      ////delete pin from db
+      deletePin(email, pin);
+
+      return res.json({
+        status: "success",
+        message: "Your password has been updated",
+      });
+    }
+  }
+  res.json({
+    status: "error",
+    message: "Unable to update your password. plz try again later",
+  });
+});
+
 module.exports = router;
