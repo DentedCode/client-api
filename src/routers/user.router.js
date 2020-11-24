@@ -13,6 +13,7 @@ const {
   userAuthorization,
 } = require("../middlewares/authorization.middleware");
 const { setPasswordRestPin } = require("../model/restPin/RestPin.model");
+const { emailProcessor } = require("../helpers/email.helper");
 
 router.all("/", (req, res, next) => {
   // res.json({ message: "return form user router" });
@@ -112,7 +113,21 @@ router.post("/reset-password", async (req, res) => {
   if (user && user._id) {
     /// crate// 2. create unique 6 digit pin
     const setPin = await setPasswordRestPin(email);
-    return res.json(setPin);
+    const result = await emailProcessor(email, setPin.pin);
+
+    if (result && result.messageId) {
+      return res.json({
+        status: "success",
+        message:
+          "If the email is exist in our database, the password reset pin will be sent shortly.",
+      });
+    }
+
+    return res.json({
+      status: "success",
+      message:
+        "Unable to process your request at the moment . Plz trya gain later!",
+    });
   }
 
   res.json({
