@@ -4,7 +4,7 @@ const email = Joi.string().email({
   minDomainSegments: 2,
   tlds: { allow: ["com", "net"] },
 });
-const pin = Joi.number().min(100000).max(999999).required();
+const pin = Joi.number().min(10000).max(999999).required();
 
 const newPassword = Joi.string().alphanum().min(3).max(30).required();
 
