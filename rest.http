@@ -52,6 +52,6 @@ Content-Type: application/json
 }
 
 #### user logout endpoint
-DELETE   http://localhost:3001/v1/user/logout
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA2NTUyOTA0LCJleHAiOjE2MDY1NTI5NjR9.yFbKeNROHmivqg8cRDtsnKrZkFyzJuFm4XN2wHlZCyw
-
+DELETE http://localhost:3001/v1/user/logout
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA2NTU0NzM4LCJleHAiOjE2MDY1NTU2Mzh9.djVukgIspM0bAjajetdvHzKKit9o0P-ER8N-7Np914U
+ 
