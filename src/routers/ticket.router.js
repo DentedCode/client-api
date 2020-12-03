@@ -12,15 +12,6 @@ const {
   userAuthorization,
 } = require("../middlewares/authorization.middleware");
 
-// Workflow
-
-// - Authorize every request with jwt
-
-// - Retrive a ticket from mongodb
-// - Update message conversation in the ticket database
-// - update ticket stauts // close, operator responsive pending, client response pending
-// - delete ticket form mongodb
-
 router.all("/", (req, res, next) => {
   // res.json({ message: "return form ticket router" });
 
