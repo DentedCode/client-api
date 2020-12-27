@@ -8,7 +8,7 @@ Content-Type: application/json
     "address": "Some address Sydney",
     "phone": "041000000",
     "email": "e2@e.com1",
-    "password": "secret123"
+    "password": "secret222"
 }
 ### User sing in endpoint
 POST http://localhost:3001/v1/user/login
@@ -16,12 +16,12 @@ Content-Type: application/json
 
 {
     "email": "e2@e.com",
-     "password": "password123"   
+     "password": "password"   
 }
 
 ### Get a user profile endpoint
 GET  http://localhost:3001/v1/user
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA0OTc0MTcyLCJleHAiOjE2MDQ5NzUwNzJ9.wvNH_c-yaWd05N6sPx3Y47AtJIIP9dXNCOIyVEjUO88
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA5MDQ5NzE0LCJleHAiOjE2MDkxMzYxMTR9.F8cp1zteSP9OZq8NXeirub8C-Gg81UQMYGJK-OSDAlA
 
 
 ###Token routers
@@ -47,11 +47,17 @@ Content-Type: application/json
 
 {
     "email": "e2@e.com",
-    "pin": "193288",
-    "newPassword": "password123"
+    "pin": "674783",
+    "newPassword": "password"
 }
 
 #### user logout endpoint
 DELETE http://localhost:3001/v1/user/logout
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA2NTU0NzM4LCJleHAiOjE2MDY1NTU2Mzh9.djVukgIspM0bAjajetdvHzKKit9o0P-ER8N-7Np914U
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA5MDQ5NzE0LCJleHAiOjE2MDkxMzYxMTR9.F8cp1zteSP9OZq8NXeirub8C-Gg81UQMYGJK-OSDAlA
  
+
+i
+###To Remove
+##Ticket api
+GET http://localhost:3001/v1/ticket
+Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA4MDA3ODIzLCJleHAiOjE2MDgwOTQyMjN9.0Umn0A9KBYMIO7tfTkXXfzk2va1JKF4w3uxyphXA_-M
