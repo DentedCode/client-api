@@ -28,7 +28,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwi
 
 ### Get refreshed token
 GET http://localhost:3001/v1/tokens
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA0OTc0MTcyLCJleHAiOjE2MDc1NjYxNzJ9.ancmfcnZW8zcy2zlRsnPE6drWfD2zTFpmbO6cwLzqq8
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA5NjY5NDcwLCJleHAiOjE2MTIyNjE0NzB9.C92NUOBb-MmyOx2Ipw-w-BjEafSuCot83Cwl3Bmr8Oc
 
 
 # eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA0OTc0MTcyLCJleHAiOjE2MDQ5NzUwNzJ9.wvNH_c-yaWd05N6sPx3Y47AtJIIP9dXNCOIyVEjUO88
@@ -53,11 +53,46 @@ Content-Type: application/json
 
 #### user logout endpoint
 DELETE http://localhost:3001/v1/user/logout
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA5MDQ5NzE0LCJleHAiOjE2MDkxMzYxMTR9.F8cp1zteSP9OZq8NXeirub8C-Gg81UQMYGJK-OSDAlA
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA5NjcyNzE0LCJleHAiOjE2MDk3NTkxMTR9.suW36ge23AtBke_-IG8gQOZEuUw_GxbqL177GzEmytM
  
+ 
+###Ticket apis
 
-i
-###To Remove
-##Ticket api
+ 
+### Open new ticket
+POST http://localhost:3001/v1/ticket
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA5ODkxOTg0LCJleHAiOjE2MDk5NzgzODR9.7cUfpK_RF68a-xfxVXuet4PWVqwToUPyDXpupFlCQNI
+Content-Type: application/json 
+
+{
+ "subject": "Form Issue",
+  "sender": "Prem",
+  "message": "1 Contact form not working. please fix it as soon as possible" 
+}
+
+###Get all the tickets
 GET http://localhost:3001/v1/ticket
-Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA4MDA3ODIzLCJleHAiOjE2MDgwOTQyMjN9.0Umn0A9KBYMIO7tfTkXXfzk2va1JKF4w3uxyphXA_-M
+Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA5ODkyOTMxLCJleHAiOjE2MDk5NzkzMzF9.sPqRPk6nKGpS5tMK0uYIJv778CWBfyn3zm_Y9iTS4Iw
+
+### Get single ticket
+GET http://localhost:3001/v1/ticket/5fcd969896b6cb084ceafd19
+Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA5ODkxOTg0LCJleHAiOjE2MDk5NzgzODR9.7cUfpK_RF68a-xfxVXuet4PWVqwToUPyDXpupFlCQNI
+
+### Reply message to the ticket
+PUT http://localhost:3001/v1/ticket/5fcd969896b6cb084ceafd19
+Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA5ODkxOTg0LCJleHAiOjE2MDk5NzgzODR9.7cUfpK_RF68a-xfxVXuet4PWVqwToUPyDXpupFlCQNI
+Content-Type: application/json 
+
+{ 
+    "message": "this is the 222 reply", 
+    "sender": "Prem" 
+}
+
+### Close the ticket
+PATCH http://localhost:3001/v1/ticket/close-ticket/5fcd969896b6cb084ceafd19
+Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA5OTA0NjQyLCJleHAiOjE2MDk5OTEwNDJ9.hRSVE-AFfMnsnxgCouqV_W2U5A2nfVLOBClPE59GGls
+
+### Delete the ticket
+DELETE  http://localhost:3001/v1/ticket/5fcd969896b6cb084ceafd19
+Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImUyQGUuY29tIiwiaWF0IjoxNjA5ODkxOTg0LCJleHAiOjE2MDk5NzgzODR9.7cUfpK_RF68a-xfxVXuet4PWVqwToUPyDXpupFlCQNI
+
