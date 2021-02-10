@@ -29,7 +29,7 @@ const send = (info) => {
   });
 };
 
-const emailProcessor = ({ email, pin, type }) => {
+const emailProcessor = ({ email, pin, type, verificationLink = "" }) => {
   let info = "";
   switch (type) {
     case "request-new-password":
@@ -60,6 +60,22 @@ const emailProcessor = ({ email, pin, type }) => {
         html: `<b>Hello </b>
        
       <p>Your new password has been update</p>`, // html body
+      };
+
+      send(info);
+      break;
+
+    case "new-user-confirmation-required":
+      info = {
+        from: '"CMR Company" <abe.kohler59@ethereal.email>', // sender address
+        to: email, // list of receivers
+        subject: "Please verify your new user", // Subject line
+        text:
+          "Please follow the link to very your account before you can login", // plain text body
+        html: `<b>Hello </b>
+        <p>Please follow the link to very your account before you can login</p>
+        <p>${verificationLink}</P>
+        `, // html body
       };
 
       send(info);

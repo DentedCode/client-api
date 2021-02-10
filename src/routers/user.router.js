@@ -8,6 +8,7 @@ const {
   getUserById,
   updatePassword,
   storeUserRefreshJWT,
+  verifyUser,
 } = require("../model/user/User.model");
 const { hashPassword, comparePassword } = require("../helpers/bcrypt.helper");
 const { crateAccessJWT, crateRefreshJWT } = require("../helpers/jwt.helper");
@@ -23,10 +24,13 @@ const { emailProcessor } = require("../helpers/email.helper");
 const {
   resetPassReqValidation,
   updatePassValidation,
+  newUserValidation,
 } = require("../middlewares/formValidation.middleware");
 const { verify } = require("jsonwebtoken");
 
 const { deleteJWT } = require("../helpers/redis.helper");
+
+const verificationURL = "http://localhost:3000/verification/";
 
 router.all("/", (req, res, next) => {
   // res.json({ message: "return form user router" });
@@ -50,8 +54,36 @@ router.get("/", userAuthorization, async (req, res) => {
   });
 });
 
+///very user after user is sign up
+router.patch("/verify", async (req, res) => {
+  try {
+    const { _id, email } = req.body;
+    console.log(_id, email);
+
+    const result = await verifyUser(_id, email);
+
+    if (result && result.id) {
+      return res.json({
+        status: "success",
+        message: "You account has been activated, you may sign in now.",
+      });
+    }
+
+    return res.json({
+      status: "error",
+      message: "Invalid request!",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      status: "error",
+      message: "Invalid request!",
+    });
+  }
+});
+
 // Create new user router
-router.post("/", async (req, res) => {
+router.post("/", newUserValidation, async (req, res) => {
   const { name, company, address, phone, email, password } = req.body;
 
   try {
@@ -69,8 +101,16 @@ router.post("/", async (req, res) => {
     const result = await insertUser(newUserObj);
     console.log(result);
 
+    await emailProcessor({
+      email,
+      type: "new-user-confirmation-required",
+      verificationLink: verificationURL + result._id + "/" + email,
+    });
+
     res.json({ status: "success", message: "New user created", result });
   } catch (error) {
+    console.log(error);
+
     let message =
       "Unable to create new user at the moment, Please try agin or contact administration!";
     if (error.message.includes("duplicate key error collection")) {
@@ -91,6 +131,14 @@ router.post("/login", async (req, res) => {
   }
 
   const user = await getUserByEmail(email);
+
+  if (!user.isVerified) {
+    return res.json({
+      status: "error",
+      message:
+        "You account has not been verified. Please check your email and verify you account before able to login!",
+    });
+  }
 
   const passFromDb = user && user._id ? user.password : null;
 
