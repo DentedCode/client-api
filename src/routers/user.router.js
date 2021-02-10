@@ -71,7 +71,6 @@ router.post("/", async (req, res) => {
 
     res.json({ status: "success", message: "New user created", result });
   } catch (error) {
-    console.log(error);
     let message =
       "Unable to create new user at the moment, Please try agin or contact administration!";
     if (error.message.includes("duplicate key error collection")) {
